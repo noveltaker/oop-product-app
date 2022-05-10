@@ -14,7 +14,7 @@ public class Main {
 
     ProductService service = new ProductServiceImpl();
 
-    System.out.print("test: ");
+    System.out.print("입력(o[order]: 주문, q[quit]: 종료):");
 
     String input = scanner.next();
 
@@ -26,12 +26,11 @@ public class Main {
       service.print();
 
       while (true) {
-        System.out.print("test1: ");
 
+        System.out.print("상품 번호:");
         String nextLong = scanner.next();
 
-        System.out.print("test2: ");
-
+        System.out.print("수량:");
         String nextInt = scanner.next();
 
         if (StringUtils.isBlank(nextLong) || StringUtils.isBlank(nextInt)) {

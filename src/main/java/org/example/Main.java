@@ -1,47 +1,49 @@
 package org.example;
 
 import org.apache.commons.lang3.StringUtils;
+import org.example.exception.SoldOutException;
 import org.example.service.ProductService;
 import org.example.service.ProductServiceImpl;
-
-import java.util.Scanner;
+import org.example.service.input.Input;
+import org.example.service.input.StringInput;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
-
     ProductService service = new ProductServiceImpl();
 
-    System.out.print("입력(o[order]: 주문, q[quit]: 종료):");
+    Input<String> input = new StringInput();
 
-    String input = scanner.next();
+    while (true) {
 
-    if ("q".equals(input)) {
-      scanner.close();
-      return;
-    } else if ("o".equals(input)) {
+      String orderAndQuitStr = input.getInput("입력(o[order]: 주문, q[quit]: 종료): ");
 
-      service.print();
+      if ("q".equals(orderAndQuitStr)) {
+        System.out.println("고객님의 주문 감사합니다.");
+        break;
+      } else if ("o".equals(orderAndQuitStr)) {
 
-      while (true) {
+        service.print();
 
-        System.out.print("상품 번호:");
-        String nextLong = scanner.next();
+        while (true) {
 
-        System.out.print("수량:");
-        String nextInt = scanner.next();
+          String productIdStr = input.getInput("상품 번호: ");
 
-        if (StringUtils.isBlank(nextLong) || StringUtils.isBlank(nextInt)) {
-          service.print2();
-          break;
+          String countStr = input.getInput("수량: ");
+
+          if (StringUtils.isBlank(productIdStr) || StringUtils.isBlank(countStr)) {
+            service.print2();
+            break;
+          }
+          try {
+            service.downCount(Long.valueOf(productIdStr), Integer.parseInt(countStr));
+          } catch (SoldOutException e) {
+            System.out.println(e.getMessage());
+            break;
+          }
         }
-
-        service.downCount(Long.valueOf(nextLong), Integer.parseInt(nextInt));
       }
     }
-
-    scanner.close();
   }
 }

@@ -3,45 +3,41 @@ package org.example;
 import org.apache.commons.lang3.StringUtils;
 import org.example.service.ProductService;
 import org.example.service.ProductServiceImpl;
-
-import java.util.Scanner;
+import org.example.service.input.Input;
+import org.example.service.input.StringInput;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
-
     ProductService service = new ProductServiceImpl();
 
-    System.out.print("입력(o[order]: 주문, q[quit]: 종료):");
+    Input<String> input = new StringInput();
 
-    String input = scanner.next();
+    while (true) {
 
-    if ("q".equals(input)) {
-      scanner.close();
-      return;
-    } else if ("o".equals(input)) {
+      String inputStr = input.getInput("test1:");
 
-      service.print();
+      if ("q".equals(inputStr)) {
+        return;
+      } else if ("o".equals(inputStr)) {
 
-      while (true) {
+        service.print();
 
-        System.out.print("상품 번호:");
-        String nextLong = scanner.next();
+        while (true) {
 
-        System.out.print("수량:");
-        String nextInt = scanner.next();
+          String nextLong = input.getInput("test2:");
 
-        if (StringUtils.isBlank(nextLong) || StringUtils.isBlank(nextInt)) {
-          service.print2();
-          break;
+          String nextInt = input.getInput("test3:");
+
+          if (StringUtils.isBlank(nextLong) || StringUtils.isBlank(nextInt)) {
+            service.print2();
+            break;
+          }
+
+          service.downCount(Long.valueOf(nextLong), Integer.parseInt(nextInt));
         }
-
-        service.downCount(Long.valueOf(nextLong), Integer.parseInt(nextInt));
       }
     }
-
-    scanner.close();
   }
 }

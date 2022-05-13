@@ -26,3 +26,12 @@ test {
 tasks.jar {
     manifest.attributes["Main-Class"] = "org.example.Main"
 }
+
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/java"
+        }
+    }
+}

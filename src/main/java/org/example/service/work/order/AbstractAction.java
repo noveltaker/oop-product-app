@@ -36,7 +36,10 @@ public abstract class AbstractAction extends AbstractWork implements Printer, Qu
 
     List<OrderDTO> orders = getOrders();
 
-    for (OrderDTO order : orders) {
+    int start = orders.size() - 1;
+
+    for (int i = start; i > -1; i--) {
+      OrderDTO order = orders.get(i);
       System.out.printf((format) + "%n", order.getName(), order.getCount());
       totalAmount += order.getAmount();
     }
@@ -48,8 +51,14 @@ public abstract class AbstractAction extends AbstractWork implements Printer, Qu
     int paymentAmount = totalAmount < 50000 ? totalAmount + 2500 : totalAmount;
 
     System.out.println("주문금액: " + numberFormat.format(totalAmount) + "원");
+    System.out.println("---------------------------------");
 
     System.out.println("지불금액: " + numberFormat.format(paymentAmount) + "원");
+    System.out.println("---------------------------------");
+
+    System.out.println();
+    System.out.println();
+    System.out.println();
 
     orders.clear();
   }

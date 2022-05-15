@@ -37,9 +37,7 @@ public class DataLoader implements Load {
       "648418,BS 02-2A DAYPACK 26 (BLACK),238000,5",
     };
 
-    for (int i = 0; i < productOriginData.length; i++) {
-
-      String productStr = productOriginData[i];
+    for (String productStr : productOriginData) {
 
       int notFormatIndex = productStr.indexOf("\"");
 

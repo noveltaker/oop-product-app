@@ -58,15 +58,19 @@ public class OrderWorker extends AbstractWorker {
   @Override
   public void quit() {
 
+    List<OrderDTO> orders = getOrders();
+
+    int ordersSize = orders.size();
+
+    if (ordersSize == 0) return;
+
     System.out.println("---------------------------------");
 
     String format = "%s - %s개";
 
     Integer totalAmount = 0;
 
-    List<OrderDTO> orders = getOrders();
-
-    int start = orders.size() - 1;
+    int start = ordersSize - 1;
 
     for (int i = start; i > -1; i--) {
       OrderDTO order = orders.get(i);

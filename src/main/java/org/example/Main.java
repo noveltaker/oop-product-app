@@ -6,8 +6,8 @@ import org.example.service.input.Input;
 import org.example.service.input.StringInput;
 import org.example.service.load.CsvLoader;
 import org.example.service.load.Load;
-import org.example.service.work.Work;
-import org.example.service.work.main.MainWork;
+import org.example.service.work.base.Work;
+import org.example.service.work.base.MainBaseWorker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Main {
 
     Input<String> input = new StringInput();
 
-    Work worker = new MainWork(products, orders, input);
+    Work worker = new MainBaseWorker(products, orders, input);
 
     worker.work();
   }

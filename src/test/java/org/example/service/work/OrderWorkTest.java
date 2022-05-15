@@ -7,7 +7,7 @@ import org.example.service.input.Input;
 import org.example.service.input.StringInput;
 import org.example.service.mock.MultiThread;
 import org.example.service.work.order.Count;
-import org.example.service.work.order.OrderWork;
+import org.example.service.work.order.OrderWorker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ public class OrderWorkTest {
 
   @BeforeEach
   void init() {
-    count = new OrderWork(products, orders, input);
+    count = new OrderWorker(products, orders, input);
   }
 
   @Test

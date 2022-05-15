@@ -1,13 +1,12 @@
-package org.example.service.work.main;
+package org.example.service.work.base;
 
 import org.example.dto.OrderDTO;
 import org.example.dto.ProductDTO;
 import org.example.service.input.Input;
-import org.example.service.work.Work;
 
 import java.util.List;
 
-public abstract class AbstractWork implements Work {
+public abstract class AbstractBaseWorker implements Work {
 
   private final List<ProductDTO> products;
 
@@ -15,7 +14,7 @@ public abstract class AbstractWork implements Work {
 
   private final Input<String> input;
 
-  protected AbstractWork(List<ProductDTO> products, List<OrderDTO> orders, Input<String> input) {
+  protected AbstractBaseWorker(List<ProductDTO> products, List<OrderDTO> orders, Input<String> input) {
     this.products = products;
     this.orders = orders;
     this.input = input;

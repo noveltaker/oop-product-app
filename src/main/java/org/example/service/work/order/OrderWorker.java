@@ -6,13 +6,12 @@ import org.example.dto.ProductDTO;
 import org.example.exception.SoldOutException;
 import org.example.service.input.Input;
 
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.Objects;
 
-public class OrderWork extends AbstractAction {
+public class OrderWorker extends AbstractWorker {
 
-  public OrderWork(List<ProductDTO> products, List<OrderDTO> orders, Input<String> input) {
+  public OrderWorker(List<ProductDTO> products, List<OrderDTO> orders, Input<String> input) {
     super(products, orders, input);
   }
 
@@ -34,8 +33,12 @@ public class OrderWork extends AbstractAction {
         break;
       }
 
+      Long productId = Long.valueOf(productIdStr);
+
+      Integer orderCount = Integer.parseInt(countStr);
+
       try {
-        down(Long.valueOf(productIdStr), Integer.parseInt(countStr));
+        down(productId, orderCount);
       } catch (SoldOutException e) {
         System.out.println(e.getMessage());
         break;
@@ -73,18 +76,16 @@ public class OrderWork extends AbstractAction {
 
     System.out.println("---------------------------------");
 
-    NumberFormat numberFormat = NumberFormat.getInstance();
+    int paymentAmount = totalAmount;
 
-    int paymentAmount = totalAmount < 50000 ? totalAmount + 2500 : totalAmount;
+    if (totalAmount < 50000) {
+      paymentAmount += 2500;
+    }
 
-    System.out.println("주문금액: " + numberFormat.format(totalAmount) + "원");
-    System.out.println("---------------------------------");
+    printTotalAmount("주문금액: ", totalAmount);
 
-    System.out.println("지불금액: " + numberFormat.format(paymentAmount) + "원");
-    System.out.println("---------------------------------");
+    printTotalAmount("지불금액: ", paymentAmount);
 
-    System.out.println();
-    System.out.println();
     System.out.println();
 
     orders.clear();
@@ -97,6 +98,7 @@ public class OrderWork extends AbstractAction {
 
     List<OrderDTO> orders = getOrders();
 
+    // 멀티 스레드 환경에서의 자원의 동기화 처리
     synchronized (products) {
       ProductDTO product =
           products.stream()

@@ -1,8 +1,8 @@
 package org.example.service.work.quit;
 
-import org.example.service.work.Work;
+import org.example.service.work.base.Work;
 
-public class QuitWork implements Work {
+public class QuitWorker implements Work {
 
   @Override
   public void work() {

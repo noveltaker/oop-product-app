@@ -1,10 +1,10 @@
 package org.example.service.work.order;
 
-import org.apache.commons.lang3.StringUtils;
 import org.example.dto.OrderDTO;
 import org.example.dto.ProductDTO;
 import org.example.exception.SoldOutException;
 import org.example.service.input.Input;
+import org.example.utils.StringUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +29,7 @@ public class OrderWorker extends AbstractWorker {
 
       String countStr = input.getInput("수량: ");
 
-      if (StringUtils.isBlank(productIdStr) || StringUtils.isBlank(countStr)) {
+      if (StringUtil.isBlank(productIdStr) || StringUtil.isBlank(countStr)) {
         quit();
         break;
       }

@@ -8,6 +8,7 @@ import org.example.service.input.Input;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class OrderWorker extends AbstractWorker {
 
@@ -104,11 +105,15 @@ public class OrderWorker extends AbstractWorker {
 
     // 멀티 스레드 환경에서의 자원의 동기화 처리
     synchronized (products) {
-      ProductDTO product =
-          products.stream()
-              .filter(val -> Objects.equals(val.getId(), id))
-              .findFirst()
-              .orElseThrow();
+      Optional<ProductDTO> productOptional =
+          products.stream().filter(val -> Objects.equals(val.getId(), id)).findFirst();
+
+      if (productOptional.isEmpty()) {
+        System.out.println("잘못된 주문번호 입니다.");
+        return;
+      }
+
+      ProductDTO product = productOptional.get();
 
       int downCount = product.getCount() - orderCount;
 

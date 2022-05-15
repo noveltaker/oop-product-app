@@ -4,7 +4,7 @@ import org.example.dto.OrderDTO;
 import org.example.dto.ProductDTO;
 import org.example.service.input.Input;
 import org.example.service.input.StringInput;
-import org.example.service.load.CsvLoader;
+import org.example.service.load.DataLoader;
 import org.example.service.load.Load;
 import org.example.service.work.base.Work;
 import org.example.service.work.base.MainBaseWorker;
@@ -16,7 +16,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    Load loader = new CsvLoader();
+    Load loader = new DataLoader();
 
     List<ProductDTO> products = loader.getData();
 

@@ -1,6 +1,9 @@
 package org.example.service.load;
 
 import org.example.dto.ProductDTO;
+import org.example.service.load.data.CommaData;
+import org.example.service.load.data.Data;
+import org.example.service.load.data.DoubleQuotationData;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,32 +34,10 @@ public class CsvLoader implements Load {
         int notFormatIndex = line.indexOf("\"");
 
         String[] values = line.split(",");
-        if (notFormatIndex > -1) {
 
-          Long id = Long.valueOf(values[0]);
+        Data data = notFormatIndex > -1 ? new DoubleQuotationData() : new CommaData();
 
-          String name =
-              values[1].substring(1, values[1].length())
-                  + values[2].substring(0, values[2].length() - 1);
-
-          Integer amount = Integer.valueOf(values[3]);
-
-          Integer count = Integer.valueOf(values[4]);
-
-          products.add(ProductDTO.builder().id(id).name(name).amount(amount).count(count).build());
-
-        } else {
-
-          Long id = Long.valueOf(values[0]);
-
-          String name = values[1];
-
-          Integer amount = Integer.valueOf(values[2]);
-
-          Integer count = Integer.valueOf(values[3]);
-
-          products.add(ProductDTO.builder().id(id).name(name).amount(amount).count(count).build());
-        }
+        products.add(data.created(values));
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

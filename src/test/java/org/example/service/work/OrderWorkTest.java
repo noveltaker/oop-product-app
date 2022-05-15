@@ -4,8 +4,7 @@ import org.example.dto.OrderDTO;
 import org.example.dto.ProductDTO;
 import org.example.exception.SoldOutException;
 import org.example.service.input.Input;
-import org.example.service.input.StringInput;
-import org.example.service.mock.MultiThread;
+import org.example.service.mock.Mock;
 import org.example.service.work.order.Count;
 import org.example.service.work.order.OrderWorker;
 import org.junit.jupiter.api.Assertions;
@@ -13,17 +12,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderWorkTest {
 
-  private List<ProductDTO> products =
-      List.of(ProductDTO.builder().id(1L).amount(1000).count(10).build());
+  private final List<ProductDTO> products = Mock.products;
 
-  private List<OrderDTO> orders = new ArrayList<>();
+  private final List<OrderDTO> orders = Mock.orders;
 
-  private Input<String> input = new StringInput();
+  private final Input<String> input = Mock.input;
 
   private Count count;
 
@@ -36,11 +33,12 @@ public class OrderWorkTest {
   @DisplayName("주문 개수 만큼 감소가 되는 케이스")
   void down_success() {
 
-    MultiThread[] threads = new MultiThread[11];
-
     for (int i = 0; i < 10; i++) {
-      threads[i] = new MultiThread(count, 1L, 1);
-      threads[i].start();
+      new Thread(
+              () -> {
+                count.down(1L, 1);
+              })
+          .start();
     }
 
     Assertions.assertEquals(10, products.get(0).getCount());
